@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mnu_delete_cpmpleted"
+        android:title="Delete Completed"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/mnu_delete_all"
+        android:title="Delete All" />
+    <item
+        android:id="@+id/mnu_logout"
+        android:title="Log Out" />
+</menu>

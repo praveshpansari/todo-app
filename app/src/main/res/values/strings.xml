@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">Android_todo_first</string>
+    <string name="app_name">Todo App</string>
+    <string name="edit_title">Title</string>
+    <string name="edit_description">Description</string>
+    <string name="edit_date">Date</string>
+    <string name="edit_priority">Priority</string>
+    <string name="edit_high">High</string>
+    <string name="edit_medium">Medium</string>
+    <string name="edit_low">Low</string>
+    <string name="edit_save">Save</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alert_cancel">Do you want to return to main screen?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="welcome">TODO App</string>
+    <string name="loginMsg">Hello! Please login to continue.</string>
+    <string name="passwordHint">Password</string>
+    <string name="loginBtn">Login</string>
+    <string name="usernameHint">Username</string>
+    <string name="completedCheckbox">Completed?</string>
 </resources>
