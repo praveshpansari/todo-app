@@ -62,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:fontFamily="serif"
-        android:paddingStart="50dp"
+        android:paddingStart="40dp"
         android:paddingRight="16dp"
         android:text="asdad"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

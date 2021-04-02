@@ -36,7 +36,7 @@ public class EditTodoFragment extends Fragment {
     RadioGroup rgPriority;
     Button btnSave, btnCancel;
     CheckBox chComplete;
-
+    boolean hasCheckedFields = false;
     int todoId;
 
     public static final int HIGH_PRIORITY = 1;
@@ -85,49 +85,76 @@ public class EditTodoFragment extends Fragment {
     }
 
     void SaveTodo() {
-        ETodo eTodo = new ETodo();
-        Date todoDate = new Date();
-        int checkedPriority = -1;
-        int priority = 0;
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            todoDate = format.parse(txtDate.getText().toString());
-        } catch (ParseException ex) {
-            ex.printStackTrace();
+
+        hasCheckedFields = checkAllFields();
+
+        if (hasCheckedFields) {
+
+            ETodo eTodo = new ETodo();
+            Date todoDate = new Date();
+            int checkedPriority = -1;
+            int priority = 0;
+            try {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                todoDate = format.parse(txtDate.getText().toString());
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            checkedPriority = rgPriority.getCheckedRadioButtonId();
+
+            switch (checkedPriority) {
+                case R.id.edit_fragment_rb_high:
+                    priority = HIGH_PRIORITY;
+                    break;
+                case R.id.edit_fragment_rb_medium:
+                    priority = MEDIUM_PRIORITY;
+                    break;
+                case R.id.edit_fragment_rb_low:
+                    priority = LOW_PRIORITY;
+                    break;
+            }
+
+            eTodo.setTitle(txtTitle.getText().toString());
+            eTodo.setDescription(txtDescription.getText().toString());
+            eTodo.setTodoDate(todoDate);
+            eTodo.setPriority(priority);
+            eTodo.setCompleted(chComplete.isChecked());
+
+            TodoViewModel viewModel = new ViewModelProvider(this).get(TodoViewModel.class);
+
+            if (todoId != -1) {
+                eTodo.setId(todoId);
+                viewModel.update(eTodo);
+            } else {
+                viewModel.insert(eTodo);
+            }
+
+
+            Toast.makeText(getActivity(), "Todo Saved", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         }
-        checkedPriority = rgPriority.getCheckedRadioButtonId();
+    }
 
-        switch (checkedPriority) {
-            case R.id.edit_fragment_rb_high:
-                priority = HIGH_PRIORITY;
-                break;
-            case R.id.edit_fragment_rb_medium:
-                priority = MEDIUM_PRIORITY;
-                break;
-            case R.id.edit_fragment_rb_low:
-                priority = LOW_PRIORITY;
-                break;
+    private boolean checkAllFields() {
+
+        if (txtTitle.length() == 0) {
+            txtTitle.setError("Todo title is required");
+            return false;
         }
 
-        eTodo.setTitle(txtTitle.getText().toString());
-        eTodo.setDescription(txtDescription.getText().toString());
-        eTodo.setTodoDate(todoDate);
-        eTodo.setPriority(priority);
-        eTodo.setCompleted(chComplete.isChecked());
-
-        TodoViewModel viewModel = new ViewModelProvider(this).get(TodoViewModel.class);
-
-        if (todoId != -1) {
-            eTodo.setId(todoId);
-            viewModel.update(eTodo);
-        } else {
-            viewModel.insert(eTodo);
+        if (txtDescription.length() == 0) {
+            txtDescription.setError("Todo description is required");
+            return false;
         }
 
+        if (txtDate.length() == 0) {
+            txtDate.setError("Todo Date is required");
+            return false;
+        }
 
-        Toast.makeText(getActivity(), "Todo Saved", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+        return rgPriority.getCheckedRadioButtonId() != -1;
+
     }
 
     void loadUpdateData() {

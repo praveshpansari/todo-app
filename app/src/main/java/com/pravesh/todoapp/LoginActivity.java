@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     EditText username;
     EditText password;
+    boolean checkFields = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +24,32 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.login_activity_btn_login);
         username = findViewById(R.id.userName);
         password = findViewById(R.id.password);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (username.getText().toString().equals("") || username.getText().toString().equals("")) {
-                    Toast toast = Toast.makeText(LoginActivity.this, "Please check your details and try again!", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-
-                    SharedPreferences preference = getApplicationContext().getSharedPreferences("todo_pref", 0);
-                    SharedPreferences.Editor editor = preference.edit();
-                    editor.putBoolean("authentication", true);
-                    editor.commit();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+        btnLogin.setOnClickListener(v -> {
+            checkFields = validateFields();
+            if (checkFields) {
+                SharedPreferences preference = getApplicationContext().getSharedPreferences("todo_pref", 0);
+                SharedPreferences.Editor editor = preference.edit();
+                editor.putBoolean("authentication", true);
+                editor.commit();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
+
         });
+    }
+
+    private boolean validateFields() {
+        if (username.length() == 0) {
+            username.setError("Username is required");
+            return false;
+        }
+
+        if (password.length() == 0) {
+            password.setError("Password is required");
+            return false;
+        }
+
+        return true;
     }
 }

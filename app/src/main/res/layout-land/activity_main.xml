@@ -13,8 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="#FFD600"
+        android:backgroundTint="#FFD600"
         android:clickable="true"
-        app:backgroundTint="@color/bgColorFab"
+        app:tint="#0288D1"
+        app:backgroundTint="#FFD600"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />

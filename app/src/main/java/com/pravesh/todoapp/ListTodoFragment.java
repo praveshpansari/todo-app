@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pravesh.todoapp.model.ETodo;
 import com.pravesh.todoapp.viewModel.TodoViewModel;
@@ -61,8 +62,11 @@ public class ListTodoFragment extends Fragment {
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                         TodoAdaptor adaptor = new TodoAdaptor(getTodos(viewModel.getAllTodos().getValue()));
                         ETodo todo = adaptor.getTodoAt(viewHolder.getAdapterPosition());
-                        if (todo != null)
+                        if (todo != null) {
                             viewModel.deleteById(todo);
+                            Toast.makeText(getContext(), "Todo successfully deleted!", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }).attachToRecyclerView(rvListTodo);
 
@@ -216,10 +220,6 @@ public class ListTodoFragment extends Fragment {
         }
 
         public void bind(ETodo todo) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            titleToday.setText(todo.getTitle());
-            dateToday.setText(sdf.format(todo.getTodoDate()));
-            todoDescription.setText(todo.getDescription());
 
             switch (todo.getPriority()) {
                 case 1:
@@ -244,6 +244,10 @@ public class ListTodoFragment extends Fragment {
                 priorityToday.setColorFilter(Color.rgb(209, 209, 234));
             }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            titleToday.setText(todo.getTitle());
+            dateToday.setText(sdf.format(todo.getTodoDate()));
+            todoDescription.setText(todo.getDescription());
         }
     }
 
